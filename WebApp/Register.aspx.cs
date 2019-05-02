@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -26,19 +28,31 @@ namespace WebApp
 
         protected void btnRegister_Click(object sender, EventArgs e)
         {
-            if (SearchMemberEmail(txtEmail.Text) != true && txtEmail.Text != null)
+            Member newMember = new Member();
+             
+            if (newMember.SearchMemberEmail(txtEmail.Text) != true && IsValidEmail(txtEmail.Text) == true)
             {
-                if (txtPWord.Text == txtCPword.Text && txtPWord.Text != null)
+                if (txtPWord.Text == txtCPword.Text && IsValidPassword(txtPWord.Text) == true)
                 {
-                    Member newMember = new Member();
-
                     newMember.firstName = txtFName.Text;
                     newMember.lastName = txtLName.Text;
                     newMember.email = txtEmail.Text;
                     newMember.salt = CreateSalt(128 / 8);
                     newMember.hash = GenerateSaltedHash(txtPWord.Text, newMember.salt);
 
-                    CreateNewMember(newMember);
+                    if(newMember.CreateNewMember() == true)
+                    {
+                        Server.Transfer("Home.aspx");
+                    }
+                    else
+                    {
+                        txtFName.Text = null;
+                        txtLName.Text = null;
+                        txtEmail.Text = null;
+                        txtPWord.Text = null;
+                        txtCPword.Text = null;
+                        lblError.Text = "Error when creating member account, please try again or contanct...";
+                    }
                 }
                 else
                 {
@@ -54,24 +68,38 @@ namespace WebApp
             }
         }
 
-        private bool SearchMemberEmail(string Email)
+        private bool IsValidPassword(string input)
         {
-            int result = 0;
-            var cnnString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-            string query = "SELECT COUNT(*) FROM Member WHERE email LIKE @Email";
-            using (SqlConnection cnn = new SqlConnection(cnnString))
-            {
-                using (SqlCommand cmd = new SqlCommand(query, cnn))
-                {
-                    cmd.Parameters.AddWithValue("@Email", Email);
+            var hasNumber = new Regex(@"[0-9]+");
+            var hasLower = new Regex(@"[a-z]+");
+            var hasUpperChar = new Regex(@"[A-Z]+");
+            var hasMinimum8Chars = new Regex(@".{8,}");
+            var hasSymbols = new Regex(@"[!@#$%^&*()_+=\[{\]};:<>|./?,-]");
 
-                    cnn.Open();
-                    result = (int)cmd.ExecuteScalar();
-                    cnn.Close();
-                }
-            }
-            if (result == 0)
+            if (!hasLower.IsMatch(input))
             {
+                lblError.Text = "Password should contain At least one lower case letter";
+                return false;
+            }
+            else if (!hasUpperChar.IsMatch(input))
+            {
+                lblError.Text = "Password should contain At least one upper case letter";
+                return false;
+            }
+            else if (!hasMinimum8Chars.IsMatch(input))
+            {
+                lblError.Text = "Password should be greater than 8 characters";
+                return false;
+            }
+            else if (!hasNumber.IsMatch(input))
+            {
+                lblError.Text = "Password should contain At least one numeric value";
+                return false;
+            }
+
+            else if (!hasSymbols.IsMatch(input))
+            {
+                lblError.Text = "Password should contain At least one special case characters";
                 return false;
             }
             else
@@ -80,41 +108,16 @@ namespace WebApp
             }
         }
 
-        private void CreateNewMember(Member aMember)
+        private bool IsValidEmail(string email)
         {
-            int result = 0;
             try
             {
-                var cnnString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-                string query = "INSERT INTO Member (firstName, lastName, email, salt, hash) VALUES (@fName, @lName, @Email, @Salt, @Hash)";
-                using (SqlConnection cnn = new SqlConnection(cnnString))
-                {
-                    using (SqlCommand cmd = new SqlCommand(query, cnn))
-                    {
-                        cmd.Parameters.AddWithValue("@fName", aMember.firstName);
-                        cmd.Parameters.AddWithValue("@lName", aMember.lastName);
-                        cmd.Parameters.AddWithValue("@Email", aMember.email);
-                        cmd.Parameters.AddWithValue("@Salt", aMember.salt);
-                        cmd.Parameters.AddWithValue("@Hash", aMember.hash);
-
-                        cnn.Open();
-                        result = cmd.ExecuteNonQuery();
-                        cnn.Close();
-                    }
-                }
-                if (result == 0)
-                {
-                    //Not inserted
-                }
-                else
-                {
-                    //inserted
-                }
+                var addr = new MailAddress(email);
+                return addr.Address == email;
             }
-            catch (Exception)
+            catch
             {
-                //not inserted
-                throw;
+                return false;
             }
         }
 

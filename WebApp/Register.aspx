@@ -57,6 +57,7 @@
                 <asp:TextBox ID="txtCPword" runat="server" TextMode="Password"/>
             </div>
             <br />
+            <asp:Label ID="lblError" runat="server"></asp:Label>
         </div>
         <div>
             <asp:Button ID="btnRegister" runat="server" text="Register" OnClick="btnRegister_Click"/> 

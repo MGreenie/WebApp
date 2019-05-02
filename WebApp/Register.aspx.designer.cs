@@ -121,6 +121,15 @@ namespace WebApp {
         protected global::System.Web.UI.WebControls.TextBox txtCPword;
         
         /// <summary>
+        /// lblError control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblError;
+        
+        /// <summary>
         /// btnRegister control.
         /// </summary>
         /// <remarks>
