@@ -108,7 +108,7 @@ namespace WebApp
             }
         }
 
-        private bool IsValidEmail(string email)
+        public bool IsValidEmail(string email)
         {
             try
             {
@@ -121,7 +121,7 @@ namespace WebApp
             }
         }
 
-        static string GenerateSaltedHash(string input, string salt)
+        public static string GenerateSaltedHash(string input, string salt)
         {
             HashAlgorithm algorithm = new SHA256Managed();
 

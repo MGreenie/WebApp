@@ -12,7 +12,7 @@
             <h1>New Member Registration</h1>
         </div>
         <div>
-            <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" DeleteCommand="DELETE FROM [Member] WHERE [ID] = @ID" InsertCommand="INSERT INTO [Member] ([firstName], [lastName], [email], [salt], [hash]) VALUES (@firstName, @lastName, @email, @salt, @hash)" SelectCommand="SELECT * FROM [Member]" UpdateCommand="UPDATE [Member] SET [firstName] = @firstName, [lastName] = @lastName, [email] = @email, [salt] = @salt, [hash] = @hash WHERE [ID] = @ID">
+            <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:LaptopConnectionString %>" DeleteCommand="DELETE FROM [Member] WHERE [ID] = @ID" InsertCommand="INSERT INTO [Member] ([firstName], [lastName], [email], [salt], [hash]) VALUES (@firstName, @lastName, @email, @salt, @hash)" SelectCommand="SELECT * FROM [Member]" UpdateCommand="UPDATE [Member] SET [firstName] = @firstName, [lastName] = @lastName, [email] = @email, [salt] = @salt, [hash] = @hash WHERE [ID] = @ID">
                 <DeleteParameters>
                     <asp:Parameter Name="ID" Type="Int32" />
                 </DeleteParameters>

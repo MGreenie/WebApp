@@ -20,7 +20,7 @@ namespace WebApp.Models
             int result = 0;
             try
             {
-                var cnnString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+                var cnnString = ConfigurationManager.ConnectionStrings["LaptopConnectionString"].ConnectionString;
                 string query = "INSERT INTO Member (firstName, lastName, email, salt, hash) VALUES (@fName, @lName, @Email, @Salt, @Hash)";
                 using (SqlConnection cnn = new SqlConnection(cnnString))
                 {
@@ -55,7 +55,7 @@ namespace WebApp.Models
         public bool SearchMemberEmail(string Email)
         {
             int result = 0;
-            var cnnString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+            var cnnString = ConfigurationManager.ConnectionStrings["LaptopConnectionString"].ConnectionString;
             string query = "SELECT COUNT(*) FROM Member WHERE email LIKE @Email";
             using (SqlConnection cnn = new SqlConnection(cnnString))
             {
@@ -75,6 +75,34 @@ namespace WebApp.Models
             else
             {
                 return true;
+            }
+        }
+
+        public void FindMemberByEmail(string emailInput)
+        {
+            var cnnString = ConfigurationManager.ConnectionStrings["LaptopConnectionString"].ConnectionString;
+            string query = "SELECT * FROM Member WHERE email LIKE @Email";
+            using (SqlConnection cnn = new SqlConnection(cnnString))
+            {
+                using (SqlCommand cmd = new SqlCommand(query, cnn))
+                {
+                    cmd.Parameters.AddWithValue("@Email", emailInput);
+
+                    cnn.Open();
+
+                    using (var reader = cmd.ExecuteReader(System.Data.CommandBehavior.CloseConnection))
+                    {
+                        while (reader.Read())
+                        {
+                            firstName = reader.GetString(1);
+                            lastName = reader.GetString(2);
+                            email = reader.GetString(3);
+                            salt = reader.GetString(4);
+                            hash = reader.GetString(5);
+                            break;
+                        }
+                    }
+                }
             }
         }
     }
