@@ -67,6 +67,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\mwDB.mdf" />
+    <Content Include="App_Data\mwDB_log.ldf">
+      <DependentUpon>mwDB.mdf</DependentUpon>
+    </Content>
     <Content Include="App_Data\mwWebAppDB.mdf" />
     <Content Include="App_Data\mwWebAppDB_log.ldf">
       <DependentUpon>mwWebAppDB.mdf</DependentUpon>
