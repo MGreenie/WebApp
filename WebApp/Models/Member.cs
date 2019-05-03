@@ -11,6 +11,7 @@ namespace WebApp.Models
     {
         public string firstName { get; set; }
         public string lastName { get; set; }
+        public string username { get; set; }
         public string email { get; set; }
         public string hash { get; set; }
         public string salt { get; set; }
@@ -20,14 +21,15 @@ namespace WebApp.Models
             int result = 0;
             try
             {
-                var cnnString = ConfigurationManager.ConnectionStrings["LaptopConnectionString"].ConnectionString;
-                string query = "INSERT INTO Member (firstName, lastName, email, salt, hash) VALUES (@fName, @lName, @Email, @Salt, @Hash)";
+                var cnnString = ConfigurationManager.ConnectionStrings["WahlgrenWebAppDBConnectionString"].ConnectionString;
+                string query = "INSERT INTO Member (firstName, lastName, userName, email, memberSalt, memberHash) VALUES (@fName, @lName, @Username, @Email, @Salt, @Hash)";
                 using (SqlConnection cnn = new SqlConnection(cnnString))
                 {
                     using (SqlCommand cmd = new SqlCommand(query, cnn))
                     {
                         cmd.Parameters.AddWithValue("@fName", firstName);
                         cmd.Parameters.AddWithValue("@lName", lastName);
+                        cmd.Parameters.AddWithValue("@Username", username);
                         cmd.Parameters.AddWithValue("@Email", email);
                         cmd.Parameters.AddWithValue("@Salt", salt);
                         cmd.Parameters.AddWithValue("@Hash", hash);
@@ -48,6 +50,7 @@ namespace WebApp.Models
             }
             catch (Exception)
             {
+                throw;
                 return false;
             }
         }
@@ -55,7 +58,7 @@ namespace WebApp.Models
         public bool SearchMemberEmail(string Email)
         {
             int result = 0;
-            var cnnString = ConfigurationManager.ConnectionStrings["LaptopConnectionString"].ConnectionString;
+            var cnnString = ConfigurationManager.ConnectionStrings["WahlgrenWebAppDBConnectionString"].ConnectionString;
             string query = "SELECT COUNT(*) FROM Member WHERE email LIKE @Email";
             using (SqlConnection cnn = new SqlConnection(cnnString))
             {
@@ -80,7 +83,7 @@ namespace WebApp.Models
 
         public void FindMemberByEmail(string emailInput)
         {
-            var cnnString = ConfigurationManager.ConnectionStrings["LaptopConnectionString"].ConnectionString;
+            var cnnString = ConfigurationManager.ConnectionStrings["WahlgrenWebAppDBConnectionString"].ConnectionString;
             string query = "SELECT * FROM Member WHERE email LIKE @Email";
             using (SqlConnection cnn = new SqlConnection(cnnString))
             {
@@ -97,8 +100,9 @@ namespace WebApp.Models
                             firstName = reader.GetString(1);
                             lastName = reader.GetString(2);
                             email = reader.GetString(3);
-                            salt = reader.GetString(4);
-                            hash = reader.GetString(5);
+                            username = reader.GetString(4);
+                            salt = reader.GetString(5);
+                            hash = reader.GetString(6);
                             break;
                         }
                     }

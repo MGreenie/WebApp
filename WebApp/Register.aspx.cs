@@ -37,6 +37,7 @@ namespace WebApp
                 {
                     newMember.firstName = txtFName.Text;
                     newMember.lastName = txtLName.Text;
+                    newMember.username = txtUsername.Text;
                     newMember.email = txtEmail.Text;
                     newMember.salt = CreateSalt(128 / 8);
                     newMember.hash = GenerateSaltedHash(txtPWord.Text, newMember.salt);
@@ -50,6 +51,7 @@ namespace WebApp
                     {
                         txtFName.Text = null;
                         txtLName.Text = null;
+                        txtUsername.Text = null;
                         txtEmail.Text = null;
                         txtPWord.Text = null;
                         txtCPword.Text = null;

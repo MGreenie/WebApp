@@ -20,7 +20,7 @@ namespace WebApp
                     {
                         HttpCookie cookie = new HttpCookie("TestCookie", "1");
                         Response.Cookies.Add(cookie);
-                        Response.Redirect("Login.aspx?CookieCheck=1");
+                        Response.Redirect("Login.aspx?CheckCookie=1");
                     }
                     else
                     {
@@ -33,7 +33,7 @@ namespace WebApp
                 }
                 else
                 {
-                    Label1.Text = "Browser doesn't support cookies. Please update to a newer version of a browser that supports cookies."
+                    Label1.Text = "Browser doesn't support cookies. Please update to a newer version of a browser that supports cookies.";
                 }
             }
         }
@@ -54,7 +54,7 @@ namespace WebApp
                     string saltedHash = Register.GenerateSaltedHash(txtPassword.Text, existingMember.salt);
                     if (existingMember.hash == saltedHash)
                     {
-                        Server.Transfer("Home.aspx");
+                        Response.Redirect("Home.aspx");
                     }
                     else
                     {

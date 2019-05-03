@@ -12,24 +12,27 @@
             <h1>New Member Registration</h1>
         </div>
         <div>
-            <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:LaptopConnectionString %>" DeleteCommand="DELETE FROM [Member] WHERE [ID] = @ID" InsertCommand="INSERT INTO [Member] ([firstName], [lastName], [email], [salt], [hash]) VALUES (@firstName, @lastName, @email, @salt, @hash)" SelectCommand="SELECT * FROM [Member]" UpdateCommand="UPDATE [Member] SET [firstName] = @firstName, [lastName] = @lastName, [email] = @email, [salt] = @salt, [hash] = @hash WHERE [ID] = @ID">
+            <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:WahlgrenWebAppDBConnectionString %>" DeleteCommand="DELETE FROM [Member] WHERE [memberID] = @memberID" InsertCommand="INSERT INTO [Member] ([memberID], [firstName], [lastName], [email], [userName], [memberSalt], [memberHash]) VALUES (@memberID, @firstName, @lastName, @email, @userName, @memberSalt, @memberHash)" SelectCommand="SELECT * FROM [Member]" UpdateCommand="UPDATE [Member] SET [firstName] = @firstName, [lastName] = @lastName, [email] = @email, [userName] = @userName, [memberSalt] = @memberSalt, [memberHash] = @memberHash WHERE [memberID] = @memberID">
                 <DeleteParameters>
-                    <asp:Parameter Name="ID" Type="Int32" />
+                    <asp:Parameter Name="memberID" Type="Int32" />
                 </DeleteParameters>
                 <InsertParameters>
+                    <asp:Parameter Name="memberID" Type="Int32" />
                     <asp:Parameter Name="firstName" Type="String" />
                     <asp:Parameter Name="lastName" Type="String" />
                     <asp:Parameter Name="email" Type="String" />
-                    <asp:Parameter Name="salt" Type="String" />
-                    <asp:Parameter Name="hash" Type="String" />
+                    <asp:Parameter Name="userName" Type="String" />
+                    <asp:Parameter Name="memberSalt" Type="String" />
+                    <asp:Parameter Name="memberHash" Type="String" />
                 </InsertParameters>
                 <UpdateParameters>
                     <asp:Parameter Name="firstName" Type="String" />
                     <asp:Parameter Name="lastName" Type="String" />
                     <asp:Parameter Name="email" Type="String" />
-                    <asp:Parameter Name="salt" Type="String" />
-                    <asp:Parameter Name="hash" Type="String" />
-                    <asp:Parameter Name="ID" Type="Int32" />
+                    <asp:Parameter Name="userName" Type="String" />
+                    <asp:Parameter Name="memberSalt" Type="String" />
+                    <asp:Parameter Name="memberHash" Type="String" />
+                    <asp:Parameter Name="memberID" Type="Int32" />
                 </UpdateParameters>
             </asp:SqlDataSource>
             <div>
@@ -40,6 +43,11 @@
             <div>
                 <asp:Label ID="lblLName" runat="server" Text="Last Name:" /> <br />
                 <asp:TextBox ID="txtLName" runat="server"/>
+            </div>
+            <br />
+            <div>
+                <asp:Label ID="lblUsername" runat="server" Text="Username:" /> <br />
+                <asp:TextBox ID="txtUsername" runat="server"/>
             </div>
             <br />
             <div>
