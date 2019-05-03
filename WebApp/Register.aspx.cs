@@ -1,15 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 using WebApp.Models;
 
 namespace WebApp
@@ -23,7 +14,7 @@ namespace WebApp
 
         protected void btnHome_Click(object sender, EventArgs e)
         {
-            Server.Transfer("Login.aspx");
+            Response.Redirect("Login.aspx");
         }
 
         protected void btnRegister_Click(object sender, EventArgs e)
@@ -45,7 +36,7 @@ namespace WebApp
                     if(newMember.CreateNewMember() == true)
                     {
                         //This should transfer to a secondary information collection page not login
-                        Server.Transfer("Login.aspx");
+                        Response.Redirect("Login.aspx");
                     }
                     else
                     {

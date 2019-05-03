@@ -40,7 +40,7 @@ namespace WebApp
 
         protected void btnReister_Click(object sender, EventArgs e)
         {
-            Server.Transfer("Register.aspx");
+            Response.Redirect("Register.aspx");
         }
 
         protected void btnLogin_Click(object sender, EventArgs e)
