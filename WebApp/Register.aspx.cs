@@ -23,16 +23,17 @@ namespace WebApp
 
         protected void btnHome_Click(object sender, EventArgs e)
         {
-            Server.Transfer("Home.aspx");
+            Server.Transfer("Login.aspx");
         }
 
         protected void btnRegister_Click(object sender, EventArgs e)
         {
             Member newMember = new Member();
-             
-            if (newMember.SearchMemberEmail(txtEmail.Text) != true && IsValidEmail(txtEmail.Text) == true)
+            string passwordInvalidReason = "";
+
+            if (newMember.SearchMemberEmail(txtEmail.Text) != true && IsThisValid.IsValidEmail(txtEmail.Text) == true)
             {
-                if (txtPWord.Text == txtCPword.Text && IsValidPassword(txtPWord.Text) == true)
+                if (txtPWord.Text == txtCPword.Text && IsThisValid.IsValidPassword(txtPWord.Text, ref passwordInvalidReason) == true)
                 {
                     newMember.firstName = txtFName.Text;
                     newMember.lastName = txtLName.Text;
@@ -42,7 +43,8 @@ namespace WebApp
 
                     if(newMember.CreateNewMember() == true)
                     {
-                        Server.Transfer("Home.aspx");
+                        //This should transfer to a secondary information collection page not login
+                        Server.Transfer("Login.aspx");
                     }
                     else
                     {
@@ -56,68 +58,23 @@ namespace WebApp
                 }
                 else
                 {
-                    lblPWord.Text = lblPWord.Text + "Passwords do not match!";
+                    if (txtPWord.Text != txtCPword.Text)
+                    {
+                        lblPWord.Text = "Password: Passwords do not match!";
+                    }
+                    else
+                    {
+                        lblPWord.Text = "Password: " + passwordInvalidReason;
+                    }
+                    
                     txtPWord.Text = null;
                     txtCPword.Text = null;
                 }
             }
             else
             {
-                lblEmail.Text = lblEmail.Text + "Email already in use!";
+                lblEmail.Text = "Email: Email already in use!";
                 txtEmail.Text = null;
-            }
-        }
-
-        private bool IsValidPassword(string input)
-        {
-            var hasNumber = new Regex(@"[0-9]+");
-            var hasLower = new Regex(@"[a-z]+");
-            var hasUpperChar = new Regex(@"[A-Z]+");
-            var hasMinimum8Chars = new Regex(@".{8,}");
-            var hasSymbols = new Regex(@"[!@#$%^&*()_+=\[{\]};:<>|./?,-]");
-
-            if (!hasLower.IsMatch(input))
-            {
-                lblError.Text = "Password should contain At least one lower case letter";
-                return false;
-            }
-            else if (!hasUpperChar.IsMatch(input))
-            {
-                lblError.Text = "Password should contain At least one upper case letter";
-                return false;
-            }
-            else if (!hasMinimum8Chars.IsMatch(input))
-            {
-                lblError.Text = "Password should be greater than 8 characters";
-                return false;
-            }
-            else if (!hasNumber.IsMatch(input))
-            {
-                lblError.Text = "Password should contain At least one numeric value";
-                return false;
-            }
-
-            else if (!hasSymbols.IsMatch(input))
-            {
-                lblError.Text = "Password should contain At least one special case characters";
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
-
-        public bool IsValidEmail(string email)
-        {
-            try
-            {
-                var addr = new MailAddress(email);
-                return addr.Address == email;
-            }
-            catch
-            {
-                return false;
             }
         }
 

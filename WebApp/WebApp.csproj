@@ -67,16 +67,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\mwDB.mdf" />
-    <Content Include="App_Data\mwDB_log.ldf">
-      <DependentUpon>mwDB.mdf</DependentUpon>
-    </Content>
     <Content Include="App_Data\mwWebAppDB.mdf" />
     <Content Include="App_Data\mwWebAppDB_log.ldf">
       <DependentUpon>mwWebAppDB.mdf</DependentUpon>
     </Content>
     <Content Include="Global.asax" />
     <Content Include="Home.aspx" />
+    <Content Include="Login.aspx" />
     <Content Include="Register.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -90,6 +87,14 @@
     </Compile>
     <Compile Include="Home.aspx.designer.cs">
       <DependentUpon>Home.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="IsThisValid.cs" />
+    <Compile Include="Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
     <Compile Include="Models\Member.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
