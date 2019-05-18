@@ -43,7 +43,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\..\..\..\Downloads\EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -93,8 +98,14 @@
     <Compile Include="Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Models\IEntity.cs" />
+    <Compile Include="Models\IMemberRepository.cs" />
+    <Compile Include="Models\IRepository.cs" />
     <Compile Include="Models\Member.cs" />
     <Compile Include="Models\MemberAddress.cs" />
+    <Compile Include="Models\MemberDBContext.cs" />
+    <Compile Include="Models\MemberRepository.cs" />
+    <Compile Include="Models\Repository.cs" />
     <Compile Include="Models\Phone.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Register.aspx.cs">

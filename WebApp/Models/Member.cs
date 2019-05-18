@@ -7,8 +7,13 @@ using System.Web;
 
 namespace WebApp.Models
 {
-    public class Member
+    public partial class Member : IEntity
     {
+        #region IEntity Members
+
+        public int id { get; set; }
+
+        #endregion
         public string firstName { get; set; }
         public string lastName { get; set; }
         public string username { get; set; }
@@ -22,7 +27,8 @@ namespace WebApp.Models
             try
             {
                 var cnnString = ConfigurationManager.ConnectionStrings["WahlgrenWebAppDBConnectionString"].ConnectionString;
-                string query = "INSERT INTO Member (firstName, lastName, userName, email, memberSalt, memberHash) VALUES (@fName, @lName, @Username, @Email, @Salt, @Hash)";
+                string query = "INSERT INTO Member (firstName, lastName, userName, email, memberSalt, memberHash) " +
+                                "VALUES (@fName, @lName, @Username, @Email, @Salt, @Hash)";
                 using (SqlConnection cnn = new SqlConnection(cnnString))
                 {
                     using (SqlCommand cmd = new SqlCommand(query, cnn))

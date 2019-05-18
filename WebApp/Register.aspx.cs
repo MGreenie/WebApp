@@ -36,7 +36,7 @@ namespace WebApp
                     if(newMember.CreateNewMember() == true)
                     {
                         //This should transfer to a secondary information collection page not login
-                        Response.Redirect("Login.aspx");
+                        Response.Redirect("SecondaryInfo.aspx");
                     }
                     else
                     {
